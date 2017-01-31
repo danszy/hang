@@ -1,0 +1,71 @@
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+<script>
+var currentWord = 'shoe';
+var maxLifes = 5;
+var currentLifes = 5;
+function generateWord(){
+//If had API generate the word here
+}
+
+function guessAttempt(guess){
+
+if (guess == currentWord){
+ alert("you won");
+ resetGame();
+ return true;
+}
+
+if (guess.length>1){
+ return false;
+}
+
+pos = currentWord.search(guess);
+if (pos==-1){
+ return false;
+}else{
+a = $("#answer").html();
+a = a.substring(0, pos) + guess + a.substring(pos+1);
+$("#answer").html(a);
+}
+pos = a.search("_");
+if (pos == -1){
+alert("you won");
+resetGame();
+return true;
+}
+
+}
+
+function process(){
+var guess = $("#guess").val();
+if (guessAttempt(guess) == false){
+currentLifes = currentLifes - 1;
+$("#lifes").html(currentLifes);
+inc = $("#incorrect").html();
+$('#incorrect').html(inc + "<br>" + guess );
+if (currentLifes == 0){
+alert("you lose");
+resetGame();
+}
+
+}
+$("#guess").val("");
+}
+
+function resetGame(){
+currentLifes = maxLifes;
+$("#lifes").html(currentLifes);
+$("#answer").html("____");
+$("#incorrect").html("");
+}
+
+</script>
+<body>
+<span id="answer">____</span>
+<input id="guess" onKeyDown="if(event.keyCode==13) process();"></input>
+<span id="lifes">5</span>
+<div id="incorrect"></div>
+</body>
+</html>
